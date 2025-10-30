@@ -1,0 +1,25 @@
+# Bytecode & cache
+__pycache__/
+**/__pycache__/
+*.py[cod]
+
+# Environment / secrets
+.env
+.venv/
+
+# IDE configs
+.vscode/
+.vscode/settings.json
+
+# Output / logs / generated data
+output/
+*.db
+output/*.html
+myproducts.txt
+idk.txt
+
+# Temporary or local scripts
+query.py
+
+# Logs
+logs/
