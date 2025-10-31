@@ -1,0 +1,6 @@
+beautifulsoup4==4.13.4
+requests==2.32.4
+python-dotenv==1.1.0
+SQLAlchemy==2.0.41
+psycopg2==2.9.10
+Unidecode==1.4.0
