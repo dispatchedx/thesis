@@ -73,7 +73,6 @@ def scrape_masoutis(starting_page: int, max_page=250, logger=None):
     total_pages_scraped = 0
 
     for category_id in categories.values():
-        print(category_id)
         category_products = []  # Separate list for this category
         page_number = starting_page
 
