@@ -1,0 +1,54 @@
+name: Run Scrapers Daily
+
+on:
+  schedule:
+    # Runs every day at 7:00 UTC (which is 9:00 CET+2 during daylight saving)
+    - cron: "0 7 * * *"
+  workflow_dispatch:
+    inputs:
+      num_pages:
+        description: |
+          Select a scraper to run:
+          1: ab,
+          2: bazaar,
+          3: marketin,
+          4: masoutis,
+          5: mymarket,
+          6: sklavenitis,
+          99: full (all shops)
+        required: true
+        type: string
+        default: "99" # Keep a default value in case you forget to enter one
+jobs:
+  run-scrapers:
+    runs-on: ubuntu-latest
+
+    env:
+      DATABASE_URL: ${{ secrets.DATABASE_URL }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Set up Python 3.12
+        uses: actions/setup-python@v4
+        with:
+          python-version: 3.12
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements-scrapers.txt
+
+      - name: Run scrapers (full)
+        run: |
+          mkdir -p logs
+          python -m scripts.run_scrapers ${{ github.event.inputs.num_pages || '99'}}
+
+      - name: Upload scraper logs
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: scraper-logs-${{ github.run_id }}
+          path: |
+            logs/
+          #retention-days: 7  # Keep artifacts for 7 days (default is 90)
